@@ -1,0 +1,46 @@
+#include <iostream>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+
+using namespace std;
+
+mutex mut;
+condition_variable cond;
+
+void f1()
+{
+	
+	{unique_lock<mutex> lk(mut);
+	cond.wait(lk);}
+	for (int k = 1; k < 100; k += 2)
+	{
+		cout << k << "  ";;
+		this_thread::sleep_for(chrono::milliseconds(100));
+		if (k == 51)
+			cond.notify_one();
+	}
+}
+
+void f2()
+{
+	{unique_lock<mutex> lk(mut);
+	cond.wait(lk);}
+	for (int k = 0; k < 100; k += 2)
+	{
+		cout << k << "  ";
+		this_thread::sleep_for(chrono::milliseconds(100));
+		if (k == 50)
+			cond.notify_one();
+	}
+}
+
+int main()
+{
+	thread t1(f1);
+	thread t2(f2);
+	t1.join();
+	t2.join();
+	system("pause");
+	return 0;
+}
