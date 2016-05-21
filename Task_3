@@ -10,8 +10,6 @@ condition_variable cond;
 
 void f1()
 {
-
-    {lock_guard<mutex> guard(mut);}
     for (int k=1; k<100; k+=2)
     {
         cout << k << "  ";;
