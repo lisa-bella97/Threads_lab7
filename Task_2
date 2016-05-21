@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <thread>
 #include <mutex>
@@ -10,46 +9,46 @@ mutex mut;
 void f1()
 {
 
-    for (int k=1; k<100; k+=2)
-    {
-        int counter = 0;
-        this_thread::sleep_for(chrono::milliseconds(100));
-        lock_guard<mutex> guard(mut);
-        while (counter < 2)
-        {
-
-            cout << k << "  ";
-            this_thread::sleep_for(chrono::milliseconds(100));
-            counter++;
-            if (counter == 1) k+=2;
-        }
-
-    }
+	for (int k = 1; k < 100; k += 2)
+	{
+		int counter = 0;
+		this_thread::sleep_for(chrono::milliseconds(100));
+		lock_guard<mutex> guard(mut);
+		while (counter < 2)
+		{
+			cout << k << "  ";
+			this_thread::sleep_for(chrono::milliseconds(100));
+			counter++;
+			if (counter == 1) 
+				k += 2;
+		}
+	}
 }
 
 void f2()
 {
-    for (int k=0; k<100; k+=2)
-    {
-        int counter = 0;
-        this_thread::sleep_for(chrono::milliseconds(100));
-        lock_guard<mutex> guard(mut);
-        while (counter < 2)
-        {
-            cout << k << "  ";
-            this_thread::sleep_for(chrono::milliseconds(100));
-            counter++;
-            if (counter == 1) k+=2;
-        }
-
-    }
+	for (int k = 0; k < 100; k += 2)
+	{
+		int counter = 0;
+		this_thread::sleep_for(chrono::milliseconds(100));
+		lock_guard<mutex> guard(mut);
+		while (counter < 2)
+		{
+			cout << k << "  ";
+			this_thread::sleep_for(chrono::milliseconds(100));
+			counter++;
+			if (counter == 1) 
+				k += 2;
+		}
+	}
 }
 
 int main()
 {
-    thread t1(f1);
-    thread t2(f2);
-    t1.join();
-    t2.join();
-    return 0;
+	thread t1(f1);
+	thread t2(f2);
+	t1.join();
+	t2.join();
+	system("pause");
+	return 0;
 }
