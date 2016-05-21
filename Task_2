@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <thread>
 #include <mutex>
@@ -9,12 +10,14 @@ mutex mut;
 void f1()
 {
 
-   for (int k=1; k<100; k+=2)
+    for (int k=1; k<100; k+=2)
     {
         int counter = 0;
+        this_thread::sleep_for(chrono::milliseconds(100));
+        lock_guard<mutex> guard(mut);
         while (counter < 2)
         {
-            lock_guard<mutex> guard(mut);
+
             cout << k << "  ";
             this_thread::sleep_for(chrono::milliseconds(100));
             counter++;
@@ -29,9 +32,10 @@ void f2()
     for (int k=0; k<100; k+=2)
     {
         int counter = 0;
+        this_thread::sleep_for(chrono::milliseconds(100));
+        lock_guard<mutex> guard(mut);
         while (counter < 2)
         {
-            lock_guard<mutex> guard(mut);
             cout << k << "  ";
             this_thread::sleep_for(chrono::milliseconds(100));
             counter++;
@@ -40,7 +44,6 @@ void f2()
 
     }
 }
-
 
 int main()
 {
